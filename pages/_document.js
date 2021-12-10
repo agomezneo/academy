@@ -14,6 +14,7 @@ class MyDocument extends Document {
             sizes="76x76"
             href="/img/brand/faviconNEO.png"
           />
+         
         </Head>
         <body className="text-blueGray-700 antialiased">
           <div id="page-transition"></div>

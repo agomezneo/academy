@@ -5,6 +5,7 @@ import VideoCommentInput from 'components/Inputs/VideoCommentInput';
 import Comment from '../Inputs/Comment';
 import Image from 'next/image';
 import {BsChevronDoubleUp, BsChevronDoubleDown } from "react-icons/bs";
+import { SiTelegram } from "react-icons/si";
 
 function VideoGallery ({user}) {
 
@@ -228,6 +229,20 @@ function VideoGallery ({user}) {
                                 <div className={styles.informationVideo_text}>
                                     <h3 className={styles.videoPrincipalTitle}>{selectedVideo.title}</h3>
                                     <p>{selectedVideo.description}</p>
+                                    {selectedVideo.title === "Bienvenida del Socio Plus" ? 
+                                        <a className={styles.telegramButton} href="https://t.me/+qkouAv-mtPkwMzZk"  target= "_blank">
+                                            <SiTelegram/> <span>Ir a nuestro canal de Telegram</span>
+                                        </a>
+                                        :
+                                        null
+                                    }
+                                    {selectedVideo.title === "Bienvenida del Curso Pro" ? 
+                                        <a className={styles.telegramButton} href="https://t.me/+6jrjrUj486NhNDY0"  target= "_blank">
+                                            <SiTelegram/> <span>Ir a nuestro canal de Telegram</span>
+                                        </a>
+                                        :
+                                        null
+                                    }
                                 </div>
                                 <div>
                                     <div className="bg-white p-2 rounded-lg">

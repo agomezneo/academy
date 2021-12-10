@@ -9,16 +9,9 @@ import { FiLogOut } from "react-icons/fi";
 
 const UserDropdown = ({user}) => { 
 
-  const router = useRouter();
-  const closeSesion = () =>{
-      app.auth().signOut(); 
-      router.push("/") 
-  }
-
   return (
     <>
       {user && user.role === "admin" ? <AdminButtons/> : null}
-
       <div className="items-center flex">
         <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
           <img
@@ -28,8 +21,6 @@ const UserDropdown = ({user}) => {
           />
         </span>
       </div>
-
-
       <div className="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
         <div className="relative flex w-full flex-wrap items-stretch">
           <h2 className={styles.name}>{user ? user.firstName : null}</h2>
