@@ -1,0 +1,11 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@import url("./VideoGallery.module.css");
+
+@import url("./Spiner.module.css");
+
+@import url("./AdminNavbar.module.css");

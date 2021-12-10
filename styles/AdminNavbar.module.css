@@ -1,0 +1,185 @@
+
+.NavBar{
+    height: 80px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: sticky;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #0e0e1454;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5); 
+}
+
+.HeaderStats{
+    top: -80px;
+    background: #0e0e14;
+    position: relative
+}
+
+.HeaderStats_title{
+    color :#3dae2a;
+    font-size: 3rem;
+    text-align: center;
+}
+
+
+.name{
+    color: #3dae2a;
+    margin-left: 7px;
+}
+.buttonsContainer{
+    display: flex;
+}
+
+.Backdrop{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    background: #000000e1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.Modal{
+    width: 700px;
+    min-height: auto;
+    margin: auto !important;
+    padding: 0 2rem !important;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff; 
+    z-index: 10000;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.Modal > button{
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+    border: none;
+    background-color: #fff;
+    color: rgb(185, 174, 174);
+}
+
+.contactForm{
+    width: 80%;
+    padding: 40px !important;
+}
+
+.contactForm > form > h2{
+    font-size: 30px;
+    font-weight: 500;
+    color: #3dae2a;
+}
+
+.inputBox{
+    position: relative;
+    width: 100%;
+    margin-top:  10px !important;
+    cursor: pointer;
+
+}
+
+.inputSelect{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.inputVideo{
+    width: 100%;
+    border-bottom: 2px solid #3dae2a;
+    padding: .5rem 0 .5rem 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0 10px 0;
+}
+
+.inputSelect > select{
+    width: 250px;
+    border: 1px solid #3dae2a;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.inputBox > input, 
+.inputBox > textarea{
+    width: 100%;
+    padding: 5px 0 !important;
+    font-size: 16px;
+    margin: 10px 0 !important;
+    border: none;
+    border-bottom: 2px solid #3dae2a;
+    outline: none;
+    resize: none;
+    background: transparent;
+}
+
+.inputBox > span{
+    position: absolute;
+    left: 0;
+    padding: 5px 0 !important;
+    font-size: 16px;
+    margin: 10px 0 !important;
+    pointer-events: none;
+    transition: .5s;
+    color: rgb(56, 52, 52);
+
+}
+
+.inputBox > input:focus ~ span,
+.inputBox > input:valid ~ span,
+.inputBox > textarea:focus ~ span,
+.inputBox > textarea:valid ~ span{
+    color: #3dae2a;
+    font-size: 12px;
+    transform: translateY(-20px);
+    border: none;
+}
+
+.inputBox > input[type='submit']{
+    width: 100%;
+    background: #3dae2a;
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.3); 
+    color: #fff;
+    border:none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px !important;
+    font-size: 18px;
+}
+
+@media only screen and (max-width: 900px){
+    .Modal{
+        padding: 0 0 !important;
+    }
+
+    .contactForm{
+        width: 100%;
+    }
+    .NavBar{
+        display: none;
+    }
+    .HeaderStats{
+        top: -10px;
+        background: #0e0e14;
+        position: relative
+    }
+
+    .HeaderStats_title{
+        font-size: 2rem;
+    }
+}
