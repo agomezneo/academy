@@ -17,27 +17,6 @@ const UserDropdown = ({user}) => {
 
   return (
     <>
-      {/* <div>
-        <HeaderItem title= "Perfil" Icon={RiUserFill}/>
-      </div> */}
-       <Link href="/admin/profile">
-        <div 
-          className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"} 
-          style={{cursor: "pointer"}}
-        >
-          Mi Perfil
-        </div>
-      </Link>
-      <div    
-        className={
-          "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-        }
-        style={{cursor: "pointer"}}
-        onClick={closeSesion}
-      >
-        Cerrar Sesión
-      </div>
-
       {user && user.role === "admin" ? <AdminButtons/> : null}
 
       <div className="items-center flex">

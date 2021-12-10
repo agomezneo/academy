@@ -39,7 +39,7 @@ export default function Register() {
               email: values.email,
               phone: values.phone,
               role: "user",
-              membership: "PLUS" 
+              membership: "FREE" 
             });
           }
       }).catch((errors)=>{
