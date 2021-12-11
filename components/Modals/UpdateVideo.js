@@ -14,7 +14,8 @@ const Modal = ({handleClose}) =>{
             description: "",
             tutor:"VtP4AYQR5TkO6YcPJyBI",
             category: "videos-academia-free",
-            tag: "defi"
+            tag: "defi",
+            tagAP: "clases"
     });
 
     const handleChange = e =>{
@@ -37,6 +38,7 @@ const Modal = ({handleClose}) =>{
             tutor: values.tutor,
             category: values.category,
             tag: values.tag,
+            tagAP: values.tagAP,
             created: firebase.firestore.FieldValue.serverTimestamp()
         })
         .then((doc) =>{
@@ -125,6 +127,20 @@ const Modal = ({handleClose}) =>{
                                 <option  value="videosAcademiaEnero">Academia Pro</option>
                             </select>
                         </div>
+                        {values.category === "videosAcademiaEnero" ?
+                            <div className={`${styles.inputBox} ${styles.inputSelect}`}>
+                                <span>Etiqueta Pro:</span>
+                                <select name="tagAP" value={values.tagAP} onChange={handleChange}>
+                                    <option value="clases">CLASES</option>
+                                    <option value="repasos">REPASOS</option>
+                                    <option  value="bonos">BONOS</option>
+                                </select>
+                            </div>
+
+                            : 
+
+                            null
+                        }
                         <div className={`${styles.inputBox} ${styles.inputSelect}`}>
                             <span>Etiqueta:</span>
                             <select name="tag" value={values.tag} onChange={handleChange}>

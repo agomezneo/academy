@@ -5,14 +5,14 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 import {app} from '../../firebaseClient';
 import { useAuth } from "../../context/auth/auth";
 
-export default function Sidebar({signOut}) {
+export default function Sidebar({signOut, user}) {
 
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const router = useRouter();
 
-  const {user} = useAuth();
+  
 
-  const closeSesion = () =>{
+  const closeSesion = () =>{ 
     app.auth().signOut(); 
     router.push("/")
 }

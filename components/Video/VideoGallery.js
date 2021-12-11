@@ -41,7 +41,7 @@ function VideoGallery ({user}) {
         if(user){
             const ref = getRef();
             db.collection(ref).onSnapshot((res) =>{
-                const docs = [];
+                const docs = []; 
                 res.forEach((doc)=>{
                     docs.push({...doc.data(), id:doc.id})
                 })
@@ -161,9 +161,10 @@ function VideoGallery ({user}) {
         setSelectedVideo(i)
     };
     
-    videos.sort((a, b) =>{
+    const filterVideos = videos.sort((a, b) =>{
         return a.created.seconds - b.created.seconds
     })
+
 
     const closeInfomation = () =>{
         setCloserInformation(!closerInformation)
@@ -276,7 +277,7 @@ function VideoGallery ({user}) {
                         </div>
                     </div>
                     <div className={styles.videoList} id="video-list">
-                        {videos.map((video, key)=>{
+                        {filterVideos.map((video, key)=>{
                             return(
                             <a href="#main-video" key={key} className={selectedVideo.id === video.id ? `${styles.videoList_Video} ${styles.active}` : `${styles.videoList_Video}`} onClick={() => chooseVideo(video)}>
                                 <video src={video.url}/>

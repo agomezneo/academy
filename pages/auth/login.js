@@ -20,8 +20,6 @@ export default function Login(props) {
           ...values,
           [e.target.name]: value
       });
-
-      console.log(values)
   };
 
   const router = useRouter(); 
@@ -31,7 +29,6 @@ export default function Login(props) {
         if(userLogin){
           router.push('/admin/dashboard')
         }
-        console.log("Sesion started::", userLogin)
     }).catch((error)=>{
       if(error.code === "auth/user-not-found"){
         alert("¡UPS! Aún no tienes una cuenta en proyectoNEO");
