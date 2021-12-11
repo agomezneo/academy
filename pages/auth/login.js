@@ -6,7 +6,7 @@ import Auth from "layouts/Auth.js";
 
 export default function Login(props) {
 
-  const [values, setValues] = useState({
+  const [values, setValues] = useState({ 
     email: '',
     password: '',
   });
@@ -28,6 +28,9 @@ export default function Login(props) {
   const signIn = (e) =>{
     e.preventDefault();
     app.auth().signInWithEmailAndPassword(values.email, values.password).then((userLogin)=>{
+        if(userLogin){
+          router.push('/admin/dashboard')
+        }
         console.log("Sesion started::", userLogin)
     }).catch((error)=>{
       if(error.code === "auth/user-not-found"){

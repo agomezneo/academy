@@ -4,6 +4,7 @@ import CardProfile from "components/Cards/CardProfile.js";
 import Admin from "layouts/Admin.js";
 
 export default function Settings() { 
+
   return (
     <>
       <div className="flex flex-wrap">

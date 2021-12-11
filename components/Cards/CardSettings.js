@@ -1,13 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useAuth } from "../../context/auth/auth";
 import {app} from '../../firebaseClient';
 
-
 export default function CardSettings() {
-
-  const date = new Date()
-
+  
   const {user, userID} = useAuth();
+  const date = new Date() 
   const db = app.firestore();
   const [userValues, setUserValues] = useState({
     userName: user.userName ? user.userName : '',

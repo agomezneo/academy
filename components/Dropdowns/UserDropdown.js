@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import AdminButtons from 'components/AdminButtons/AdminButtons';
 import styles from '../../styles/AdminNavbar.module.css'; 
 import HeaderItem from "components/Headers/HeaderItem";
-import { RiVideoUploadFill, RiUserFill, RiUserAddFill } from "react-icons/ri";
+import { RiVideoUploadFill, RiUserFill, RiUserAddFill } from "react-icons/ri"; 
 import { FiLogOut } from "react-icons/fi";
 
 const UserDropdown = ({user}) => { 
@@ -17,7 +17,7 @@ const UserDropdown = ({user}) => {
           <img
             alt="imagen profile"
             className="w-full rounded-full align-middle border-none shadow-lg"
-            src={user ? user.image ? `${user.image}` : `/img/avatar.svg` :  null  }
+            src={user && user.image ? `${user.image}` : `/img/avatar.svg`}
           />
         </span>
       </div>
