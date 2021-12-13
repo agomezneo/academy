@@ -180,7 +180,7 @@ function VideoGallery ({user}) {
    
     return ( 
         <>
-        {!selectedVideo || !videos ? <h1 style={{marginTop: "100px", fontSize:"3rem", color:"red" }}>!No hay videos que mostrar, por favor carga tu primer video!</h1> : loadedVideos && videos ? 
+        {!selectedVideo || !videos ? <h1 style={{marginTop: "100px", fontSize:"3rem", color:"red" }}>!No hay videos que mostrar, por favor cargar primer video!</h1> : loadedVideos && videos ? 
             <div className={styles.VideoGallery} id="main-video">
                 <div className={styles.videoGallery_header}>
                     <h2>{user.membership === "PLUS" ? "BIBLIOTECA" : `ACADEMIA ${user.membership}`} </h2>
