@@ -38,8 +38,10 @@ function VideoGallery ({user}) {
     }
     
     useEffect(() => {
-        if(user){
-            const ref = getRef();
+        if(!user){
+            return  
+        }
+        const ref = getRef();
             db.collection(ref).onSnapshot((res) =>{
                 const docs = []; 
                 res.forEach((doc)=>{
@@ -49,7 +51,6 @@ function VideoGallery ({user}) {
                 setSelectedVideo(docs[0])
                 setLoadedVideos(true)
             })
-        }
     }, [db])
 
     useEffect(() => {
@@ -160,11 +161,17 @@ function VideoGallery ({user}) {
     const chooseVideo = (i) =>{
         setSelectedVideo(i)
     };
-    
-    const filterVideos = videos.sort((a, b) =>{
-        return a.created.seconds - b.created.seconds
-    })
 
+    const filterVideos = () =>{
+        if(!videos){
+           return
+        }
+        videos.sort((a, b) =>{
+            return a.created.seconds - b.created.seconds;
+        })
+    }
+
+    filterVideos();
 
     const closeInfomation = () =>{
         setCloserInformation(!closerInformation)
@@ -173,7 +180,7 @@ function VideoGallery ({user}) {
    
     return ( 
         <>
-        {loadedVideos && videos ? 
+        {!selectedVideo || !videos ? <h1 style={{marginTop: "100px", fontSize:"3rem", color:"red" }}>!No hay videos que mostrar, por favor carga tu primer video!</h1> : loadedVideos && videos ? 
             <div className={styles.VideoGallery} id="main-video">
                 <div className={styles.videoGallery_header}>
                     <h2>{user.membership === "PLUS" ? "BIBLIOTECA" : `ACADEMIA ${user.membership}`} </h2>
@@ -277,7 +284,7 @@ function VideoGallery ({user}) {
                         </div>
                     </div>
                     <div className={styles.videoList} id="video-list">
-                        {filterVideos.map((video, key)=>{
+                        {videos.map((video, key)=>{
                             return(
                             <a href="#main-video" key={key} className={selectedVideo.id === video.id ? `${styles.videoList_Video} ${styles.active}` : `${styles.videoList_Video}`} onClick={() => chooseVideo(video)}>
                                 <video src={video.url}/>

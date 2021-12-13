@@ -17,7 +17,7 @@ export default function Login(props) {
         ? e.target.checked
         : e.target.value;
       setValues({
-          ...values,
+          ...values, 
           [e.target.name]: value
       });
   };

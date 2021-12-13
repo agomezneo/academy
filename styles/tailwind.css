@@ -66,6 +66,10 @@ body {
 		'Segoe UI Emoji';
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 /*
 Grouping content
 ================
