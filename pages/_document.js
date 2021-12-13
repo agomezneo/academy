@@ -16,7 +16,7 @@ class MyDocument extends Document {
           />
          
         </Head>
-        <body className="text-blueGray-700 antialiased" onLoad="sendingGoogleForm">
+        <body className="text-blueGray-700 antialiased">
           <div id="page-transition"></div>
           <Main />
           <NextScript />
