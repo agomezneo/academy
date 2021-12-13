@@ -65,8 +65,21 @@ const Modal = ({handleClose}) =>{
         })
     }
 
+    const [progressBar, setProgressBar] = useState(0);
+    function handleEvent(event) {
+        const progress = Math.round(
+            (event.loaded / event.total) * 100
+        );
+        setProgressBar(progress)
+        if (event.type === "load") {
+            preview.src = reader.result;
+        }
+    }
+
     const addVideo = (e) =>{
         const reader = new FileReader();
+        reader.addEventListener('progress', handleEvent)
+        
         if(e.target.files[0]){
             reader.readAsDataURL(e.target.files[0]);
         }
@@ -98,10 +111,13 @@ const Modal = ({handleClose}) =>{
                             <input type='text' name="description" required="required" onChange={handleChange} value={values.description}/>
                             <span>Descripción</span>
                         </div>
+
                         <div className={styles.inputVideo} onClick={() => filePickerRef.current.click()}>
                             Seleccionar video
                             <input hidden ref={filePickerRef} type='file' required="required" onChange={addVideo} />
                         </div>
+
+                        <progress value={progressBar} max="100"/>
                         {videoToUpdate && (
                             <div onClick={removeVideo} className="flex flex-col filter hover:brightness-110 transition duration-150 hover:scale-105 cursor-pointer">
                                 <video className="h-10 object-contain" src={videoToUpdate} alt="videoToUpdate"/>
