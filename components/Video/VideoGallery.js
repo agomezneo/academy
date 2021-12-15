@@ -17,7 +17,6 @@ function VideoGallery () {
     useEffect(() => {
         if(currentUser){
             db.collection("users").doc(currentUser.uid).get().then(doc =>{
-                console.log(doc.data())
                 setUser(doc.data())
             })
         }
