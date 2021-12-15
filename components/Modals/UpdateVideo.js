@@ -16,7 +16,8 @@ const Modal = ({handleClose}) =>{
             tutor:"VtP4AYQR5TkO6YcPJyBI",
             category: "videos-academia-free",
             tag: "defi",
-            tagAP: "clases"
+            tagAP: "clases",
+            url: ""
     });
 
     const handleChange = e =>{
@@ -25,7 +26,6 @@ const Modal = ({handleClose}) =>{
             ...values,
             [name]: value
         });
-        console.log(values)
     };
 
     const db = app.firestore();
@@ -40,6 +40,7 @@ const Modal = ({handleClose}) =>{
             category: values.category,
             tag: values.tag,
             tagAP: values.tagAP,
+            url: values.url,
             created: firebase.firestore.FieldValue.serverTimestamp()
         })
     } 

@@ -18,7 +18,6 @@ export default function Admin({ children}) {
               setUser(doc.data())
           })
       }
-      console.log(currentUser.uid);
   }, [currentUser])
 
   return ( 

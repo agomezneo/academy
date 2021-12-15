@@ -21,7 +21,6 @@ function VideoGallery () {
                 setUser(doc.data())
             })
         }
-        console.log(currentUser.uid);
     }, [currentUser])
 
     
@@ -60,7 +59,6 @@ function VideoGallery () {
         if(!user){
             return  
         }
-        console.log(user)
         const ref = getRef();
         db.collection(ref).onSnapshot((res) =>{
             const docs = []; 
@@ -180,7 +178,7 @@ function VideoGallery () {
         setSelectedVideo(i)
     };
 
-    /* const filterVideos = () =>{
+    const filterVideos = () =>{
         if(!videos){
            return
         }
@@ -189,7 +187,7 @@ function VideoGallery () {
         })
     }
 
-    filterVideos(); */
+    filterVideos();
 
     const closeInfomation = () =>{
         setCloserInformation(!closerInformation) 

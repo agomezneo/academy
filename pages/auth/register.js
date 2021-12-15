@@ -31,8 +31,6 @@ export default function Register() {
             ...values,
             [e.target.name]: value
         });
-
-        console.log(values)
     };
 
     const db = app.firestore();
@@ -43,18 +41,17 @@ export default function Register() {
       if(values.password !== values.passwordConfirm){
         return setError('La contraseña no coincide')
       }
-   
       try{
         setError('')
         setLoading(true)
          const userCreated = await singUp(values.email, values.password);
          if(userCreated){
-          db.collection('users').doc(userCreated.user.uid).set({
+          db.collection('users').doc(userCreated.user.uid).set({ 
             firstName : values.firstName,
             email: values.email,
             phone: values.phone,
             role: "user",
-            membership: "" 
+            membership: "FREE" 
           });
           router.push('/');
          }
@@ -62,26 +59,6 @@ export default function Register() {
         setError("Ha ocurrido un error al crear la cuenta")
       }
         setLoading(false)
-
-      /* app.auth().createUserWithEmailAndPassword(values.email, values.password).then((user)=>{
-          if(user){
-            console.log(user)
-            db.collection('users').doc(user.user.uid).set({
-              firstName : values.firstName,
-              email: values.email,
-              phone: values.phone,
-              role: "admin",
-              membership: "" 
-            });
-          }
-      }).catch((errors)=>{
-          console.log(errors)
-          if(errors.message === "Firebase: The email address is already in use by another account. (auth/email-already-in-use)."){
-              alert('¡Ya tines una cuenta en ProyectoNEO! Por favor inicia sesión');
-          }
-      }).then(
-        Router.push("/")
-      ) */
   }
 
   return (
