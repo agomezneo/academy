@@ -3,6 +3,7 @@ import Backdrop from "components/Backdrop/index";
 import styles from '../../styles/AdminNavbar.module.css';
 import firebase from "firebase/compat/app";
 import {app} from '../../firebaseClient';
+import SpinerInfinity from 'components/Spiners/Spiner';
 
 const Modal = ({handleClose}) =>{
 
@@ -118,12 +119,17 @@ const Modal = ({handleClose}) =>{
                         </div>
 
                         <progress value={progressBar} max="100"/>
-                        {videoToUpdate && (
+                        {!videoToUpdate && progressBar < 100  ?
+                           
+                            <SpinerInfinity/>
+                           
+                            :
+
                             <div onClick={removeVideo} className="flex flex-col filter hover:brightness-110 transition duration-150 hover:scale-105 cursor-pointer">
                                 <video className="h-10 object-contain" src={videoToUpdate} alt="videoToUpdate"/>
                                 <p className="text-xs text-red-500 text-center cursor-pointer">Quitar video</p>
                             </div>
-                        ) }
+                        }
                         <div className={`${styles.inputBox} ${styles.inputSelect}`}>
                             <span>Tutor:</span>
                             <select name="tutor" value={values.tutor} onChange={handleChange}>
