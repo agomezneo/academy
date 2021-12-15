@@ -11,6 +11,13 @@ import {useAuth} from 'context/auth/auth';
 
 function VideoGallery () {
 
+    useEffect(() => {
+        const doc = document;
+        doc.oncontextmenu = () =>{ 
+            return false
+        }
+    }, [document])
+
     const [user, setUser] = useState(null)
     const {currentUser} = useAuth();
 
@@ -21,16 +28,6 @@ function VideoGallery () {
             })
         }
     }, [currentUser])
-
-    
-
-    
-    /* useEffect(() => {
-        const doc = document;
-        doc.oncontextmenu = () =>{ 
-            return false
-        }
-    }, [document]) */
 
     const [videos , setVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState();
