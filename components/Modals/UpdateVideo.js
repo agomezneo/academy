@@ -42,66 +42,15 @@ const Modal = ({handleClose}) =>{
             tagAP: values.tagAP,
             created: firebase.firestore.FieldValue.serverTimestamp()
         })
-        .then((doc) =>{
-            if(videoToUpdate){
-                const uploadTask = storage
-                .ref(`videos/${values.category}/${doc.id}`)
-                .putString(videoToUpdate, "data_url");
-
-                removeVideo();
-
-                uploadTask.on(
-                    "state_changed", 
-                    null, 
-                    (error) => console.error(error), 
-                    ()=>{
-                        storage.ref(`videos/${values.category}`).child(doc.id).getDownloadURL().then(url =>{
-                            db.collection(`${values.category}`).doc(doc.id).set({
-                                url: url
-                            }, {merge: true})
-                        })
-                    }
-                )
-            }
-        })
     } 
 
-    const [progressBar, setProgressBar] = useState(0);
-    function handleProgress(event) {
-        const progress = Math.round(
-            (event.loaded / event.total) * 100
-        );
-        setProgressBar(progress)
-    }
-
-    console.log(progressBar)
-
-    const addVideo = (e) =>{
-        const reader = new FileReader();
-        reader.addEventListener('progress', handleProgress)
-        
-        if(e.target.files[0]){
-            reader.readAsDataURL(e.target.files[0]);
-        }
-        reader.onload = (readerEvent) =>{
-            if(readerEvent.target.result){
-                console.log(readerEvent.target.result)
-                setVideoToUpdate(readerEvent.target.result)
-            }
-        }
-    }
-    const removeVideo = () =>{
-        setVideoToUpdate(null)
-    }
-
-    console.log(videoToUpdate)
 
     return(
         <Backdrop onClick={handleClose}>
             <div 
                 onClick={(e) => e.stopPropagation()}
                 className={styles.Modal}
-              
+             
             >
                 <button onClick={handleClose}>X</button>
 
@@ -116,32 +65,8 @@ const Modal = ({handleClose}) =>{
                             <input type='text' name="description" required="required" onChange={handleChange} value={values.description}/>
                             <span>Descripción</span>
                         </div>
-
-                        <div className={styles.inputVideo} onClick={() => filePickerRef.current.click()}>
-                            Seleccionar video
-                            <input hidden ref={filePickerRef} type='file' required="required" onChange={addVideo} />
-                        </div>
-
-                        <progress value={progressBar} max="100"/>
-
-                       
-                            <div onClick={removeVideo} className="flex flex-col filter hover:brightness-110 transition duration-150 hover:scale-105 cursor-pointer">
-                                {videoToUpdate === null   ?
-
-                                    <SpinerInfinity/>
-
-                                    :
-
-                                    <>
-                                        <video className="h-10 object-contain" src={videoToUpdate} alt="videoToUpdate"/>
-                                        <p className="text-xs text-red-500 text-center cursor-pointer">Quitar video</p>
-                                    </>
-                                }
-                            </div>
-                    
-                        
                         <div className={`${styles.inputBox} ${styles.inputSelect}`}>
-                            <span>Tutor:</span>
+                            <span style={{position: "relative"}}>Tutor:</span>
                             <select name="tutor" value={values.tutor} onChange={handleChange}>
                                 <option value="VtP4AYQR5TkO6YcPJyBI">Alex Castells</option>
                                 <option value="A36jbKF2GMoWz9vJkhAg">Jorge Montosa</option>
@@ -152,7 +77,7 @@ const Modal = ({handleClose}) =>{
                             </select>
                         </div>
                         <div className={`${styles.inputBox} ${styles.inputSelect}`}>
-                            <span>Categoria:</span>
+                            <span style={{position: "relative"}}>Categoria:</span>
                             <select name="category" value={values.category} onChange={handleChange}>
                                 <option value="videos-academia-free">Academia Free</option>
                                 <option value="videos-biblioteca">Socio Plus</option>
@@ -161,7 +86,7 @@ const Modal = ({handleClose}) =>{
                         </div>
                         {values.category === "videosAcademiaEnero" ?
                             <div className={`${styles.inputBox} ${styles.inputSelect}`}>
-                                <span>Etiqueta Pro:</span>
+                                <span style={{position: "relative"}}>Etiqueta Pro:</span>
                                 <select name="tagAP" value={values.tagAP} onChange={handleChange}>
                                     <option value="clases">CLASES</option>
                                     <option value="repasos">REPASOS</option>
@@ -174,7 +99,7 @@ const Modal = ({handleClose}) =>{
                             null
                         }
                         <div className={`${styles.inputBox} ${styles.inputSelect}`}>
-                            <span>Etiqueta:</span>
+                            <span style={{position: "relative"}}>Etiqueta:</span>
                             <select name="tag" value={values.tag} onChange={handleChange}>
                                 <option value="defi">DEFI</option>
                                 <option value="trading">TRADING</option>

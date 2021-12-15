@@ -9,17 +9,17 @@ import styles from '../styles/VideoGallery.module.css';
 export default function Admin({ children}) { 
 
   const [user, setUser] = useState(null)
-    const {currentUser} = useAuth();
+  const {currentUser} = useAuth();
 
-    useEffect(() => {
-        if(currentUser){
-            db.collection("users").doc(currentUser.uid).get().then(doc =>{
-                console.log(doc.data())
-                setUser(doc.data())
-            })
-        }
-        console.log(currentUser.uid);
-    }, [currentUser])
+  useEffect(() => {
+      if(currentUser){
+          db.collection("users").doc(currentUser.uid).get().then(doc =>{
+              console.log(doc.data())
+              setUser(doc.data())
+          })
+      }
+      console.log(currentUser.uid);
+  }, [currentUser])
 
   return ( 
     <>

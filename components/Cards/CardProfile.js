@@ -1,12 +1,21 @@
-import React from "react";
-import { useAuth } from "../../context/auth/auth";
+import React, {useState, useEffect} from "react";
+import {db} from '../../firebaseClient';
 
-// components
+export default function CardProfile({currentUser}) {
 
-export default function CardProfile() {
-  const {user} = useAuth();
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+      if(currentUser){
+          db.collection("users").doc(currentUser.uid).get().then(doc =>{
+              console.log(doc.data())
+              setUser(doc.data())
+          })
+      }
+  }, [currentUser])
+  
   return (
-    <>
+    <>{user && (
       <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
         <div className="px-6">
           <div className="flex flex-wrap justify-center">
@@ -70,6 +79,7 @@ export default function CardProfile() {
           </div>
         </div>
       </div>
+      )}
     </>
   );
 }

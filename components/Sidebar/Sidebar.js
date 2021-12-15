@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router"; 
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
-import {app} from '../../firebaseClient';
+import {auth} from '../../firebaseClient';
 import { useAuth } from "../../context/auth/auth";
 
 export default function Sidebar({signOut, user}) {
@@ -10,11 +10,9 @@ export default function Sidebar({signOut, user}) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
   const router = useRouter();
 
-  
-
   const closeSesion = () =>{ 
-    app.auth().signOut(); 
-    router.push("/")
+    auth.signOut(); 
+    router.push("/auth/login")
 }
   return (
     <>

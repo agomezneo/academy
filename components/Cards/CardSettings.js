@@ -1,24 +1,34 @@
 import React, {useState, useEffect} from "react";
-import { useAuth } from "../../context/auth/auth";
-import {app} from '../../firebaseClient';
+import firebase from "firebase/compat/app";
+import {db} from '../../firebaseClient';
 
-export default function CardSettings() {
-  
-  const {user, userID} = useAuth();
-  const date = new Date() 
-  const db = app.firestore();
+export default function CardSettings({currentUser}) {
+
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+      if(currentUser){
+          db.collection("users").doc(currentUser.uid).get().then(doc =>{
+              console.log(doc.data())
+              setUser(doc.data())
+          })
+      }
+  }, [currentUser])
+
   const [userValues, setUserValues] = useState({
-    userName: user.userName ? user.userName : '',
-    email: user.email ? user.email : '',
-    firstName: user.firstName ? user.firstName : '',
-    lastName: user.lastName ? user.lastName : '',
-    address: user.address ? user.address : '',
-    city: user.city ? user.city : '',
-    country: user.country ? user.country : '',
-    postalCode: user.postalCode ? user.postalCode : '',
-    phone: user.phone ? user.phone : '',
-    bio: user.bio ? user.bio : '', 
-    upDated: date
+
+    userName: user ? user.userName : '',
+    email: user ? user.email : '',
+    firstName: user ? user.firstName : '',
+    lastName: user ? user.lastName : '',
+    address: user ? user.address : '',
+    city: user ? user.city : '',
+    country: user ? user.country : '',
+    postalCode: user ? user.postalCode : '', 
+    phone: user ? user : '',
+    bio: user ? user.bio : '', 
+    upDated: firebase.firestore.FieldValue.serverTimestamp()
+
   });
 
   const handleChange = e =>{
@@ -34,18 +44,17 @@ export default function CardSettings() {
 };
 
 
-  console.log("valuesUser::", userValues)
-  console.log("valuesID::", userID)
-
-
   const updateUserData = async () => {
-    await db.collection("users").doc(userID).update(userValues)
+    await db.collection("users").doc(currentUser.uid).update(userValues)
     .catch(err => err.message)
+    alert('Actualizado!!!')
     return
   }
 
+
+
   return (
-    <>
+    <>{user && (
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
         <div className="rounded-t bg-white mb-0 px-6 py-6">
           <div className="text-center flex justify-between">
@@ -62,7 +71,7 @@ export default function CardSettings() {
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
           <form>
             <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-              User Information
+              {user.email}
             </h6>
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4">
@@ -79,7 +88,6 @@ export default function CardSettings() {
                     name="userName" 
                     value={userValues.userName}
                     onChange={handleChange}
-                    defaultValue={userValues.userName}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -98,7 +106,6 @@ export default function CardSettings() {
                     name="email" 
                     value={userValues.email}
                     onChange={handleChange}
-                    defaultValue={userValues.email}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -117,7 +124,6 @@ export default function CardSettings() {
                     name="firstName" 
                     value={userValues.firstName}
                     onChange={handleChange}
-                    defaultValue={userValues.firstName}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -136,7 +142,6 @@ export default function CardSettings() {
                     name="lastName" 
                     value={userValues.lastName}
                     onChange={handleChange}
-                    defaultValue={userValues.lastName}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
 
                   />
@@ -164,7 +169,6 @@ export default function CardSettings() {
                     name="address" 
                     value={userValues.address}
                     onChange={handleChange}
-                    defaultValue={userValues.address}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -183,7 +187,6 @@ export default function CardSettings() {
                     name="city" 
                     value={userValues.city}
                     onChange={handleChange}
-                    defaultValue={userValues.city}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -202,7 +205,6 @@ export default function CardSettings() {
                     name="country" 
                     value={userValues.country}
                     onChange={handleChange}
-                    defaultValue={userValues.country}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -221,7 +223,6 @@ export default function CardSettings() {
                     name="postalCode" 
                     value={userValues.postalCode}
                     onChange={handleChange}
-                    defaultValue={userValues.postalCode}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -240,7 +241,6 @@ export default function CardSettings() {
                     name="phone" 
                     value={userValues.phone}
                     onChange={handleChange}
-                    defaultValue={userValues.phone}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
@@ -267,7 +267,6 @@ export default function CardSettings() {
                     name="bio" 
                     value={userValues.bio}
                     onChange={handleChange}
-                    defaultValue={userValues.bio}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     rows="4"
                   ></textarea>
@@ -277,6 +276,7 @@ export default function CardSettings() {
           </form>
         </div>
       </div>
+      )}
     </>
   );
 }
