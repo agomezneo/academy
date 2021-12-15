@@ -1,22 +1,39 @@
 import React, {useState, useEffect} from 'react';
 import styles from '../../styles/VideoGallery.module.css';
-import {app} from '../../firebaseClient';
+import {db} from '../../firebaseClient';
 import VideoCommentInput from 'components/Inputs/VideoCommentInput';
 import Comment from '../Inputs/Comment';
 import Image from 'next/image';
 import {BsChevronDoubleUp, BsChevronDoubleDown } from "react-icons/bs";
 import { SiTelegram } from "react-icons/si";
+import {useAuth} from 'context/auth/auth';
 
-function VideoGallery ({user}) {
 
+function VideoGallery () {
+
+    const [user, setUser] = useState(null)
+    const {currentUser} = useAuth();
+
+    useEffect(() => {
+        if(currentUser){
+            db.collection("users").doc(currentUser.uid).get().then(doc =>{
+                console.log(doc.data())
+                setUser(doc.data())
+            })
+        }
+        console.log(currentUser.uid);
+    }, [currentUser])
+
+    
+
+    
     /* useEffect(() => {
         const doc = document;
-        doc.oncontextmenu = () =>{
+        doc.oncontextmenu = () =>{ 
             return false
         }
     }, [document]) */
 
-    
     const [videos , setVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState();
     const [loadedVideos, setLoadedVideos] = useState(false)
@@ -26,9 +43,11 @@ function VideoGallery ({user}) {
     const [profileTutor, setProfileTutor] = useState()
     const [tutorFound, setTutorFound] = useState(false)
 
-    const db = app.firestore();
+     const getRef = () =>{
+        if(!user){
+         return
+        }
 
-    const getRef = () =>{
         if(user.membership === "FREE"){
             return "videos-academia-free"
         }else if(user.membership === "PLUS"){
@@ -36,22 +55,25 @@ function VideoGallery ({user}) {
         }
         return "videosAcademiaEnero"
     }
-    
+
     useEffect(() => {
         if(!user){
             return  
         }
+        console.log(user)
         const ref = getRef();
-            db.collection(ref).onSnapshot((res) =>{
-                const docs = []; 
-                res.forEach((doc)=>{
-                    docs.push({...doc.data(), id:doc.id})
-                })
-                setVideos(docs)
-                setSelectedVideo(docs[0])
-                setLoadedVideos(true)
+        db.collection(ref).onSnapshot((res) =>{
+            const docs = []; 
+            res.forEach((doc)=>{
+                docs.push({...doc.data(), id:doc.id})
             })
-    }, [db])
+            setVideos(docs)
+            setSelectedVideo(docs[0])
+            setLoadedVideos(true)
+        })
+    }, [user])
+
+    
 
     useEffect(() => {
         if(selectedVideo){
@@ -60,9 +82,6 @@ function VideoGallery ({user}) {
                 if (doc.exists) {
                     setProfileTutor(doc.data())
                     setTutorFound(true)
-                    console.log(selectedVideo.tutor)
-                    console.log(doc.data())
-
                 } else {
                     setTutorFound(false)
                     console.log("No such document!");
@@ -72,7 +91,6 @@ function VideoGallery ({user}) {
             });
         }
     }, [selectedVideo])
-
     const getVideosFree = () =>{
         db.collection('videos-academia-free').onSnapshot((res) =>{
             const videosDefi = [];
@@ -144,7 +162,7 @@ function VideoGallery ({user}) {
 
     useEffect(() => {
         if(selectedVideo){
-            db.collection("videoComments").where("idVideo.idVideo", "==", selectedVideo.id).onSnapshot((res) =>{
+            db.collection("videoComments").where("idVideo", "==", selectedVideo.id).onSnapshot((res) =>{
                 const docss = [];
                 res.forEach((doc)=>{
                     docss.push({...doc.data(), id:doc.id})
@@ -162,7 +180,7 @@ function VideoGallery ({user}) {
         setSelectedVideo(i)
     };
 
-    const filterVideos = () =>{
+    /* const filterVideos = () =>{
         if(!videos){
            return
         }
@@ -171,12 +189,11 @@ function VideoGallery ({user}) {
         })
     }
 
-    filterVideos();
+    filterVideos(); */
 
     const closeInfomation = () =>{
-        setCloserInformation(!closerInformation)
-    }
-
+        setCloserInformation(!closerInformation) 
+    } 
    
     return ( 
         <>
@@ -298,7 +315,7 @@ function VideoGallery ({user}) {
                     <h2 className={styles.socialComments_title}>Comentarios e inquietudues.</h2>
                     <div className={styles.commentsContainer}>
                         <div>
-                            <VideoCommentInput idVideo={selectedVideo.id}/>
+                            <VideoCommentInput user={user} idVideo={selectedVideo.id}/>
                             <div className={styles.commentsContainer_}>
                                 {comments?.map((comment, key)=>{
                                     return(

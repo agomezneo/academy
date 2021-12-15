@@ -9,6 +9,7 @@ import PageChange from "components/PageChange/PageChange.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";
 
+
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
   document.body.classList.add("body-page-transition");
@@ -50,20 +51,22 @@ export default class MyApp extends App {
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
     return (
-      <AuthProvider >
-        <React.Fragment>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-            <title>Academia ProyectoNEO</title>
-          </Head>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </React.Fragment>
-      </AuthProvider>
+      
+        <AuthProvider >
+          <React.Fragment>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
+              />
+              <title>Academia ProyectoNEO</title>
+            </Head>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </React.Fragment>
+        </AuthProvider>
+    
 
     );
   }

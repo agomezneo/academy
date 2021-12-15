@@ -1,13 +1,21 @@
 import React, {useState, useEffect} from "react";
-import {app} from '../../firebaseClient';
+import {app, db} from '../../firebaseClient';
 import Auth from "layouts/Auth.js";
-import Router from "next/router";
+import router, {useRouter} from "next/router";
+
+import {useAuth} from 'context/auth/auth';
 
 export default function Register() {
+
+    const {singUp} = useAuth();
+    const [error, setError] = useState();
+    const [loading, setLoading] = useState(false);
+
     const [values, setValues] = useState({
       firstName: '',
       email: '',
       password: '',
+      passwordConfirm:'',
       phone:'',
       avisoLegal: false,
       descargoDeResponsabilidad: false,
@@ -29,9 +37,33 @@ export default function Register() {
 
     const db = app.firestore();
 
-    const registerUser = (e) =>{
+    const register = async (e) =>{
       e.preventDefault();
-      app.auth().createUserWithEmailAndPassword(values.email, values.password).then((user)=>{
+   
+      if(values.password !== values.passwordConfirm){
+        return setError('La contraseña no coincide')
+      }
+   
+      try{
+        setError('')
+        setLoading(true)
+         const userCreated = await singUp(values.email, values.password);
+         if(userCreated){
+          db.collection('users').doc(userCreated.user.uid).set({
+            firstName : values.firstName,
+            email: values.email,
+            phone: values.phone,
+            role: "user",
+            membership: "" 
+          });
+          router.push('/');
+         }
+      }catch{
+        setError("Ha ocurrido un error al crear la cuenta")
+      }
+        setLoading(false)
+
+      /* app.auth().createUserWithEmailAndPassword(values.email, values.password).then((user)=>{
           if(user){
             console.log(user)
             db.collection('users').doc(user.user.uid).set({
@@ -49,7 +81,7 @@ export default function Register() {
           }
       }).then(
         Router.push("/")
-      )
+      ) */
   }
 
   return (
@@ -86,7 +118,8 @@ export default function Register() {
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
                   <small>Crear cuenta con tu email</small>
                 </div>
-                <form onSubmit={registerUser}>
+                {error && <h2>{error}</h2>}
+                <form onSubmit={register}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -157,6 +190,23 @@ export default function Register() {
                       placeholder="Password"
                     />
                   </div>
+                  <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        Confirma contraseña
+                      </label>
+                      <input
+                        type='password' 
+                        name="passwordConfirm" 
+                        id="passwordConfirm"
+                        value={values.passwordConfirm}
+                        onChange={handleChange}
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        placeholder="Confirmar contraseña"
+                      />
+                    </div>
 
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
@@ -206,6 +256,7 @@ export default function Register() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
+                      disabled={loading}
                     >
                       Crear Cuenta
                     </button>

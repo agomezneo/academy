@@ -50,7 +50,7 @@ const Modal = ({handleClose}) =>{
                 removeVideo();
 
                 uploadTask.on(
-                    "state_change", 
+                    "state_changed", 
                     null, 
                     (error) => console.error(error), 
                     ()=>{
@@ -63,27 +63,27 @@ const Modal = ({handleClose}) =>{
                 )
             }
         })
-    }
+    } 
 
     const [progressBar, setProgressBar] = useState(0);
-    function handleEvent(event) {
+    function handleProgress(event) {
         const progress = Math.round(
             (event.loaded / event.total) * 100
         );
         setProgressBar(progress)
-        if (event.type === "load") {
-            preview.src = reader.result;
-        }
     }
+
+    console.log(progressBar)
 
     const addVideo = (e) =>{
         const reader = new FileReader();
-        reader.addEventListener('progress', handleEvent)
+        reader.addEventListener('progress', handleProgress)
         
         if(e.target.files[0]){
             reader.readAsDataURL(e.target.files[0]);
         }
         reader.onload = (readerEvent) =>{
+            console.log(readerEvent.target.result)
             setVideoToUpdate(readerEvent.target.result)
         }
     }

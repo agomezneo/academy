@@ -1,12 +1,23 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Link from "next/link";
-import { app } from '../../firebaseClient';
 import { useRouter } from "next/router";
 import Auth from "layouts/Auth.js";
+import {useAuth} from 'context/auth/auth';
 
-export default function Login(props) {
 
-  const [values, setValues] = useState({ 
+
+export default function Login() {
+
+  const {login} = useAuth();
+  const router = useRouter();
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef()
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
+
+ const [values, setValues] = useState({ 
     email: '',
     password: '',
   });
@@ -17,26 +28,26 @@ export default function Login(props) {
         ? e.target.checked
         : e.target.value;
       setValues({
-          ...values, 
+          ...values,  
           [e.target.name]: value
       });
   };
 
-  const router = useRouter(); 
-  const signIn = (e) =>{
+  const signIn = async (e) =>{
     e.preventDefault();
-    app.auth().signInWithEmailAndPassword(values.email, values.password).then((userLogin)=>{
-        if(userLogin){
-          router.push('/admin/dashboard')
-        }
-    }).catch((error)=>{
-      if(error.code === "auth/user-not-found"){
-        alert("¡UPS! Aún no tienes una cuenta en proyectoNEO");
-        router.push("/auth/register")
-      }
-    })
+
+    try{
+      setError('')
+      setLoading(true)
+       await login(values.email, values.password)
+       router.push('/');
+    }catch{
+      setError("Error al ingresar")
+    }
+      setLoading(false)
+   
  }
- 
+
   return (
     <>
       <Auth>
@@ -61,7 +72,6 @@ export default function Login(props) {
                     <button
                       className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                       type="button"
-                      onClick={props.login}
                     >
                       <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
                       Google
@@ -73,6 +83,7 @@ export default function Login(props) {
                   <div className="text-blueGray-400 text-center mb-3 font-bold">
                     <small>Accede a tu cuenta con tus credenciales</small>
                   </div>
+                  {error && <h2>{error}</h2>}
                   <form onSubmit={signIn}>
                     <div className="relative w-full mb-3">
                       <label
@@ -83,6 +94,7 @@ export default function Login(props) {
                       </label>
                       <input
                         type='email' 
+                        ref={emailRef}
                         name="email" 
                         id="email"
                         value={values.email}
@@ -101,6 +113,7 @@ export default function Login(props) {
                       </label>
                       <input
                         type='password' 
+                        ref={passwordRef}
                         name="password" 
                         id="password"
                         value={values.password}
@@ -109,6 +122,7 @@ export default function Login(props) {
                         placeholder="Contraseña"
                       />
                     </div>
+                    
                     <div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
@@ -126,6 +140,7 @@ export default function Login(props) {
                       <button
                         className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="submit"
+                        onClick={signIn}
                       >
                         Ingresar
                       </button>
@@ -143,13 +158,9 @@ export default function Login(props) {
                     <small>¿Olvidaste tu contraseña?</small>
                   </a>
                 </div>
-                <div className="w-1/2 text-right">
-                  <Link href="/auth/register">
-                    <a href="#pablo" className="text-blueGray-200">
-                      <small>Crear cuenta</small>
-                    </a>
-                  </Link>
-                </div>
+                <Link href='/auth/register' className="w-1/2 text-right" >
+                      <small>¿Nuevo en ProyectoNEO? Crear tu cuenta gratuita.</small>
+                </Link>
               </div>
             </div>
           </div>

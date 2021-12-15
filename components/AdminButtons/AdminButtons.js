@@ -23,19 +23,19 @@ function AdminButtons() {
     return (
         <div className={styles.buttonsContainer}>
             <div 
-                className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"}
+                className={`text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 ${styles.adminbtns}`}
                 style={{cursor: "pointer"}}
                 onClick={() => (modalOpen ? closeModal() : openModal())}
             >
                 Subir Video
             </div>
-            <div 
-                className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"}
+            {/* <div 
+                className={`text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 ${styles.adminbtns}`}
                 style={{cursor: "pointer"}}
                 onClick={() => (modalOpen1 ? closeModal1() : openModal1())}
             >
                 Registrar Usuario
-            </div>
+            </div> */}
             {modalOpen  && <Modal  modalOpen={modalOpen} handleClose={closeModal}/>}
             {modalOpen1  && <Modal  modalOpen1={modalOpen1} handleClose={closeModal1}/>}
         </div>

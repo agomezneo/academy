@@ -102,7 +102,7 @@ export default function Sidebar({signOut, user}) {
                   </a>
                 </Link>
               </li>
-              {user.role === "admin" ?
+              {/* {user.role === "admin" ?
 
                 <li className="items-center">
                   <Link href="/admin/tables">
@@ -132,7 +132,7 @@ export default function Sidebar({signOut, user}) {
 
                 null
                       
-              }
+              } */}
 
               <li className="items-center">
                 <Link href="/admin/settings">

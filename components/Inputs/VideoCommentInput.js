@@ -1,15 +1,12 @@
 import React, {useRef} from 'react';
 import styles from '../../styles/VideoGallery.module.css';
 import Image from 'next/image';
-import { useAuth } from "../../context/auth/auth";
-import {app} from '../../firebaseClient';
+import {app, db} from '../../firebaseClient';
 import firebase from "firebase/compat/app"
 
-function VideoCommentInput(idVideo) {
+function VideoCommentInput({idVideo, user}) {
 
-    const {user} = useAuth();
     const inputRef = useRef(null)
-    const db = app.firestore();
     const sendComment = (e) =>{
         e.preventDefault();
         if(!inputRef.current.value) return
@@ -25,6 +22,8 @@ function VideoCommentInput(idVideo) {
         inputRef.current.value = ''
 
     }
+
+    
 
     return (
         <div className={`bg-white p-2 shadow-md text-gray-500 font-medium mt-6 rounded-lg ${styles.VideoCommentInput}`}>

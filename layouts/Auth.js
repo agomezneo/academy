@@ -19,12 +19,7 @@ export default function Auth({ children }) {
               backgroundImage: "url('/img/learning.svg')",
             }}
           ></div>
-          <h1 
-            style={{
-              color: "red",
-              
-            }}
-          >
+          <h1>
             ACADEMIA PRO DE PROYECTO NEO 
           </h1>
           {children}

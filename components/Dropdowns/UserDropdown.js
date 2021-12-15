@@ -7,7 +7,7 @@ import HeaderItem from "components/Headers/HeaderItem";
 import { RiVideoUploadFill, RiUserFill, RiUserAddFill } from "react-icons/ri"; 
 import { FiLogOut } from "react-icons/fi";
 
-const UserDropdown = ({user}) => { 
+const UserDropdown = ({user}) => {  
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from "react";
+/* import React, {useEffect, useContext} from "react";
 import {useAuth} from '../context/auth/auth';
 import {appRoutes} from '../constantes/index';
 import FirebaseContext from '../firebaseContext';
@@ -26,4 +26,4 @@ const ProtectedRoutes = ({router, children}) =>{
 
 }
 
-export default ProtectedRoutes;
+export default ProtectedRoutes; */

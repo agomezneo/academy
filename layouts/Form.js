@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaWhatsapp, FaTelegram, FaPhoneAlt } from "react-icons/fa";
 
+
 function Form({children}) {
 
-  
     const [screen, setScreen] = useState(false)
     useEffect(() => {
         let document = window.screen.width;
