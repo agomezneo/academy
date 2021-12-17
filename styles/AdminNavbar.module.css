@@ -18,7 +18,7 @@
 
 .HeaderStats{
     top: -80px;
-    background: #0e0e14;
+    background-color: #080a08;
     position: relative
 }
 
@@ -167,6 +167,73 @@
     font-size: 18px;
 }
 
+.sidebar{
+    background-color: #080a08;
+    color: #3dae2a;
+}
+
+.sidebarMovilMenu{
+    background-color: #080a08;
+    color: #3dae2a;
+    padding: 2rem;
+    top: 10vh;
+    height: 100vh;
+}
+
+.menuBars{
+    display: flex;
+    cursor: pointer;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px !important;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    width: 10%;
+    order: 3;
+}
+
+.btnBurger{
+    width: 30px;
+    height: 2px;
+    background: #3eae2a;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(255, 101, 47, .2);  
+    transition: all 0.3s ease-in-out;
+}
+
+.btnBurger::before,
+.btnBurger::after{
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 2px;
+    background: #3eae2a;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(255, 101, 47, .2);  
+    transition: all 0.3s ease-in-out;
+}
+
+.btnBurger::before{
+    transform: translateY(-12px);
+}
+.btnBurger::after{
+    transform: translateY(12px);
+}
+
+.menuBars.open .btnBurger{
+    transform: translateX(-50px);
+    background: transparent;
+    box-shadow: none;
+}
+
+.menuBars.open .btnBurger::before{
+    transform: rotate(45deg) translate(35px, -35px);
+} 
+.menuBars.open .btnBurger::after{
+    transform: rotate(-45deg) translate(35px, 35px);
+}
+
 @media only screen and (max-width: 900px){
     .Modal{
         padding: 0 0 !important;
@@ -186,5 +253,11 @@
 
     .HeaderStats_title{
         font-size: 2rem;
+    }
+}
+
+@media only screen and (min-width: 767px){
+    .menuBars{
+        display: none;
     }
 }

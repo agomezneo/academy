@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";;
+import styles from "../../styles/AdminNavbar.module.css"
 import Link from "next/link";
 import { useRouter } from "next/router"; 
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
@@ -14,28 +15,25 @@ export default function Sidebar({signOut, user}) {
     auth.signOut(); 
     router.push("/auth/login")
 }
+
+const [isOpen, setIsOpen] = useState(false);
+const open = () =>{
+  setIsOpen(state => !state)
+  setCollapseShow(`${styles.sidebarMovilMenu}`)
+}
   return (
     <>
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav 
+          className={`md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6 
+          ${styles.sidebar}`}
+      >
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
-          {/* Toggler */}
-          <button
-            className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-            type="button"
-            onClick={() => setCollapseShow("bg-white m-2 py-3 px-6")}
+          <div 
+              className={!isOpen ? `${styles.menuBars} ${styles.open}` : styles.menuBars}
+              onClick={open}
           >
-            <i className="fas fa-bars"></i>
-          </button>
-          {/* Brand */}
-          <Link href="/">
-            <a
-              href="#pablo"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            >
-              ACADEMIA PROYECTO NEO 
-            </a>
-          </Link>
-          {/* User */}
+            <div className={styles.btnBurger}></div>
+          </div>
           <ul className="md:hidden items-center flex flex-wrap list-none">
             <li className="inline-block relative">
               {/* <NotificationDropdown /> */}
@@ -44,34 +42,31 @@ export default function Sidebar({signOut, user}) {
               <UserDropdown />
             </li>
           </ul>
-          {/* Collapse */}
+          <Link href="/">
+            <a
+              href="#pablo"
+              className="md:block text-left md:pb-2 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+            >
+              ACADEMIA PROYECTO NEO 
+            </a>
+          </Link>
           <div
             className={
-              "md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
-              collapseShow
+              `md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded ${!isOpen ? collapseShow : "hidden" }`
+              
             }
           >
-            {/* Collapse header */}
             <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link href="/">
                     <a
                       href="#pablo"
-                      className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                      className="md:block text-left md:pb-2  mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                     >
                       ProyectoNEO
                     </a>
                   </Link>
-                </div>
-                <div className="w-6/12 flex justify-end">
-                  <button
-                    type="button"
-                    className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
-                    onClick={() => setCollapseShow("hidden")}
-                  >
-                    <i className="fas fa-times"></i>
-                  </button>
                 </div>
               </div>
             </div>
@@ -84,8 +79,8 @@ export default function Sidebar({signOut, user}) {
                     className={
                       "text-xs uppercase py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/dashboard") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? " hover:text-lightBlue-600"
+                        : " hover:text-blueGray-500")
                     }
                   >
                     <i
@@ -139,8 +134,8 @@ export default function Sidebar({signOut, user}) {
                     className={
                       "text-xs uppercase py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/settings") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? " hover:text-lightBlue-600"
+                        : " hover:text-blueGray-500")
                     }
                   >
                     <i
@@ -158,7 +153,7 @@ export default function Sidebar({signOut, user}) {
               <li className="items-center" style={{cursor: "pointer"}}>
                   <div
                     onClick={closeSesion}
-                    className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
+                    className="hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
                   >
                     <i className="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i>{" "}
                     Cerrar Sesión

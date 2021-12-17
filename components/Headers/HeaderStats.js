@@ -1,11 +1,8 @@
 import CardStats from "components/Cards/CardStats.js";
-/* import { useAuth } from "../../context/auth/auth"; */
 import styles from '../../styles/AdminNavbar.module.css';
 
 export default function HeaderStats() {
 
-/*   const {user} = useAuth(); */
-  
   return (
     <>
       {/* Header */}

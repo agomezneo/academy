@@ -8,6 +8,7 @@ import ProtectedRoutes from "routes/protectedRoutes";
 import PageChange from "components/PageChange/PageChange.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "styles/tailwind.css";
+import { StoreProvider } from "utils/Store";
 
 
 Router.events.on("routeChangeStart", (url) => {
@@ -53,18 +54,20 @@ export default class MyApp extends App {
     return (
       
         <AuthProvider >
-          <React.Fragment>
-            <Head>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, shrink-to-fit=no"
-              />
-              <title>Academia ProyectoNEO</title>
-            </Head>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </React.Fragment>
+          <StoreProvider>
+            <React.Fragment>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+                />
+                <title>Academia ProyectoNEO</title>
+              </Head>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </React.Fragment>
+          </StoreProvider>
         </AuthProvider>
     
 

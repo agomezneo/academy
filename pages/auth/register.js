@@ -50,8 +50,8 @@ export default function Register() {
             firstName : values.firstName,
             email: values.email,
             phone: values.phone,
-            role: "user",
-            membership: "FREE" 
+            role: "admin",
+            membership: "TOTAL" 
           });
           router.push('/');
          }

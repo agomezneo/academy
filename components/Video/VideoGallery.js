@@ -11,12 +11,12 @@ import {useAuth} from 'context/auth/auth';
 
 function VideoGallery () {
 
-    useEffect(() => {
+    /* useEffect(() => {
         const doc = document;
         doc.oncontextmenu = () =>{ 
             return false
         }
-    }, [document])
+    }, [document]) */
 
     const [user, setUser] = useState(null)
     const {currentUser} = useAuth();
@@ -56,7 +56,7 @@ function VideoGallery () {
             return  
         }
         const ref = getRef();
-        db.collection(ref).onSnapshot((res) =>{
+        db.collection(ref).orderBy("created", "asc").onSnapshot((res) =>{
             const docs = []; 
             res.forEach((doc)=>{
                 docs.push({...doc.data(), id:doc.id})
