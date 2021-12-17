@@ -86,7 +86,7 @@ function VideoGallery () {
         }
     }, [selectedVideo])
     const getVideosFree = () =>{
-        db.collection('videos-academia-free').onSnapshot((res) =>{
+        db.collection('videos-academia-free').orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -97,7 +97,7 @@ function VideoGallery () {
         })
     }
     const getVideosBiblioteca= () =>{
-        db.collection('videos-biblioteca').onSnapshot((res) =>{ 
+        db.collection('videos-biblioteca').orderBy("created", "asc").onSnapshot((res) =>{ 
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -109,7 +109,7 @@ function VideoGallery () {
         setBiblioteca(!biblioteca)
     }
     const getVideosPro = () =>{
-        db.collection('videosAcademiaEnero').onSnapshot((res) =>{
+        db.collection('videosAcademiaEnero').orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -121,7 +121,7 @@ function VideoGallery () {
         setBiblioteca(!biblioteca)
     }
     const getVideosWithTagDefi = () =>{
-        db.collection('videos-biblioteca').where("tag", "==" , "defi").onSnapshot((res) =>{
+        db.collection('videos-biblioteca').where("tag", "==" , "defi").orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -132,7 +132,7 @@ function VideoGallery () {
         })
     }
     const getVideosWithTagTrading = () =>{
-        db.collection('videos-biblioteca').where("tag", "==" , "trading").onSnapshot((res) =>{
+        db.collection('videos-biblioteca').where("tag", "==" , "trading").orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -143,7 +143,7 @@ function VideoGallery () {
         })
     }
     const getVideosWithTagCrypto = () =>{
-        db.collection('videos-biblioteca').where("tag", "==" , "crypto").onSnapshot((res) =>{
+        db.collection('videos-biblioteca').where("tag", "==" , "crypto").orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];
             res.forEach((doc)=>{
                 videosDefi.push({...doc.data(), id:doc.id})
@@ -156,7 +156,7 @@ function VideoGallery () {
 
     useEffect(() => {
         if(selectedVideo){
-            db.collection("videoComments").where("idVideo", "==", selectedVideo.id).onSnapshot((res) =>{
+            db.collection("videoComments").where("idVideo", "==", selectedVideo.id).orderBy("created", "asc").onSnapshot((res) =>{
                 const docss = [];
                 res.forEach((doc)=>{
                     docss.push({...doc.data(), id:doc.id})
@@ -173,17 +173,6 @@ function VideoGallery () {
     const chooseVideo = (i) =>{
         setSelectedVideo(i)
     };
-
-    const filterVideos = () =>{
-        if(!videos){
-           return
-        }
-        videos.sort((a, b) =>{
-            return a.created.seconds - b.created.seconds;
-        })
-    }
-
-    filterVideos();
 
     const closeInfomation = () =>{
         setCloserInformation(!closerInformation) 

@@ -2,7 +2,7 @@ import React, {useState} from "react";;
 import styles from "../../styles/AdminNavbar.module.css"
 import Link from "next/link";
 import { useRouter } from "next/router"; 
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
+import UserDropdown from "components/Dropdowns/UserDropdown.js"; 
 import {auth} from '../../firebaseClient';
 import { useAuth } from "../../context/auth/auth";
 
@@ -14,13 +14,14 @@ export default function Sidebar({signOut, user}) {
   const closeSesion = () =>{ 
     auth.signOut(); 
     router.push("/auth/login")
-}
+  }
 
-const [isOpen, setIsOpen] = useState(false);
-const open = () =>{
-  setIsOpen(state => !state)
-  setCollapseShow(`${styles.sidebarMovilMenu}`)
-}
+  const [isOpen, setIsOpen] = useState(true);
+  const open = () =>{
+    setIsOpen(state => !state)
+    setCollapseShow(`${styles.sidebarMovilMenu}`)
+  }
+
   return (
     <>
       <nav 
@@ -39,7 +40,7 @@ const open = () =>{
               {/* <NotificationDropdown /> */}
             </li>
             <li className="inline-block relative">
-              <UserDropdown />
+              <UserDropdown/>
             </li>
           </ul>
           <Link href="/">
@@ -95,7 +96,7 @@ const open = () =>{
                   </a>
                 </Link>
               </li>
-              {/* {user.role === "admin" ?
+              {user && user.role === "admin" ?
 
                 <li className="items-center">
                   <Link href="/admin/tables">
@@ -104,8 +105,8 @@ const open = () =>{
                       className={
                         "text-xs uppercase py-3 font-bold block " +
                         (router.pathname.indexOf("/admin/tables") !== -1
-                          ? "text-lightBlue-500 hover:text-lightBlue-600"
-                          : "text-blueGray-700 hover:text-blueGray-500")
+                          ? "hover:text-lightBlue-600"
+                          : "hover:text-blueGray-500")
                       }
                     >
                       <i
@@ -125,7 +126,7 @@ const open = () =>{
 
                 null
                       
-              } */}
+              }
 
               <li className="items-center">
                 <Link href="/admin/settings">
