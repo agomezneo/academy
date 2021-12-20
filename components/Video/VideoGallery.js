@@ -67,8 +67,6 @@ function VideoGallery () {
         })
     }, [user])
 
-    
-
     useEffect(() => {
         if(selectedVideo){
             const docRef = db.collection("profile-tutors").doc(selectedVideo.tutor);
@@ -85,6 +83,7 @@ function VideoGallery () {
             });
         }
     }, [selectedVideo])
+    
     const getVideosFree = () =>{
         db.collection('videos-academia-free').orderBy("created", "asc").onSnapshot((res) =>{
             const videosDefi = [];

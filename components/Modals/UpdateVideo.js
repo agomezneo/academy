@@ -46,10 +46,11 @@ const Modal = ({handleClose}) =>{
         setFileUrl( await fileRef.getDownloadURL() )
     } 
 
-    useEffect(() => {
+    useEffect(async () => {
         if(!fileUrl){
             return
         }
+       try {
         db.collection(`${values.category}`).add({
             title: values.title,
             description: values.description, 
@@ -60,10 +61,14 @@ const Modal = ({handleClose}) =>{
             url: fileUrl,
             created: firebase.firestore.FieldValue.serverTimestamp()
         })
+       } catch (error) {
+           console.log(error.message)
+       }
         setShowSpiner(false)
+        handleClose();
     }, [fileUrl])
 
-
+    console.log(videoToUpdate ? videoToUpdate : "no hay que mostrar")
     return(
         <Backdrop onClick={handleClose}>
             <div 
@@ -71,6 +76,7 @@ const Modal = ({handleClose}) =>{
                 className={styles.Modal}
              
             >
+
                 <button onClick={handleClose}>X</button>
                 {showSpiner ? 
                     <>
@@ -97,7 +103,23 @@ const Modal = ({handleClose}) =>{
                                 <input hidden ref={filePickerRef} type='file' required="required" onChange={onFileChange} />
                             </div>
 
-                        
+                            {videoToUpdate ? 
+                                <div style={{display: "flex", justifyContent: "space-between"}}>   
+                                <p>{videoToUpdate.name}</p>
+                                <p  
+                                    onClick={()=> setVideoToUpdate(null)}
+                                    style={{
+                                        color: "red", 
+                                        cursor: "pointer",
+                                        width: "200px", 
+                                        }}
+                                >
+                                    Quitar video y subir otro
+                                </p>
+                                </div>
+                                :
+                                <p>Aun no cargas un video <SpinerInfinity/> </p>
+                            }
 
                             <div className={`${styles.inputBox} ${styles.inputSelect}`}>
                                 <span style={{position: "relative"}}>Tutor:</span>

@@ -55,9 +55,13 @@ export default function Register() {
           });
           router.push('/');
          }
-      }catch{
-        setError("Ha ocurrido un error al crear la cuenta")
       }
+      catch(error){
+        console.error(error.message)
+        if(error.message === "Firebase: The email address is already in use by another account. (auth/email-already-in-use)."){
+          alert("El email ya esta registrado")
+        }
+      } 
         setLoading(false)
   }
 
