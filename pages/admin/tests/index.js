@@ -1,4 +1,4 @@
-/* import React, {useState ,useEffect} from 'react';
+import React, {useState ,useEffect} from 'react';
 import Form from '../../../layouts/Form';
 import styles from '../../../styles/FormLayout.module.css';
 import {useRouter} from 'next/router';
@@ -39,5 +39,5 @@ export async function getServerSideProps(){
         }
     }
 }
- */
+
 
