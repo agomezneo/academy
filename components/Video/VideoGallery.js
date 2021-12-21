@@ -329,20 +329,20 @@ export default function VideoGallery () {
                             </div>
                         </div>
                         <div className={styles.documents}>
-                            <h3>Recursos:</h3>
+                            <h3 style={{marginBottom: "1rem"}}>Recursos:</h3>
                             {pdf && 
-                                <a href={pdf.documentUrl} target= "_blank">
+                                <a href={pdf.documentUrl} target= "_blank" style={{display: "flex", alignItems: "flex-end"}}>
                                 <BsFileEarmarkPdfFill style={{color: "red", fontSize: "5rem"}}/>
                                 <span style={{fontSize: "1rem", color: "#3dae2a"}}>{pdf.name}</span>
                             </a>
                             }
-                            <h3>Tests:</h3>
+                            <h3 style={{marginBottom: "1rem"}}>Tests:</h3>
                         </div>
                     </div>
                 </div>
             </div>
 
-        :
+        :   
 
         <h1>Loading....</h1>
 
