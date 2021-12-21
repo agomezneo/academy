@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {app, db} from '../../firebaseClient';
+import { db } from '../../firebaseClient';
 import Auth from "layouts/Auth.js";
 import router, {useRouter} from "next/router";
 
@@ -32,8 +32,6 @@ export default function Register() {
             [e.target.name]: value
         });
     };
-
-    const db = app.firestore();
 
     const register = async (e) =>{
       e.preventDefault();

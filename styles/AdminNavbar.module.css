@@ -67,22 +67,32 @@
 
 .Modal > button{
     position: absolute;
-    right: 1rem;
-    top: 0.5rem;
+    right: 10rem;
+    top: 50%;
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: 600;
     border: none;
-    background-color: #fff;
-    color: rgb(185, 174, 174);
+    color: red;
 }
 
 .contactForm{
-    width: 80%;
-    padding: 40px !important;
+    width: 100%;
+    padding: 10px;
 }
 
-.contactForm > form > h2{
+.contactForm > form {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.contactForm > form > div{
+    width: 45%;
+}
+
+.formTitle{
     font-size: 30px;
     font-weight: 500;
     color: #3dae2a;
@@ -98,10 +108,10 @@
 
 .inputSelect{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .inputVideo{

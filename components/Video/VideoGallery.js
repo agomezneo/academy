@@ -4,12 +4,11 @@ import {db} from '../../firebaseClient';
 import VideoCommentInput from 'components/Inputs/VideoCommentInput';
 import Comment from '../Inputs/Comment';
 import Image from 'next/image';
-import {BsChevronDoubleUp, BsChevronDoubleDown } from "react-icons/bs";
+import {BsChevronDoubleUp, BsChevronDoubleDown, BsFileEarmarkPdfFill } from "react-icons/bs";
 import { SiTelegram } from "react-icons/si";
 import {useAuth} from 'context/auth/auth';
 
-
-function VideoGallery () {
+export default function VideoGallery () {
 
     /* useEffect(() => {
         const doc = document;
@@ -37,6 +36,7 @@ function VideoGallery () {
     const [closerInformation, setCloserInformation] = useState(true)
     const [profileTutor, setProfileTutor] = useState()
     const [tutorFound, setTutorFound] = useState(false)
+    const [pdf, setPdf] = useState(null)
 
      const getRef = () =>{
         if(!user){
@@ -176,6 +176,18 @@ function VideoGallery () {
     const closeInfomation = () =>{
         setCloserInformation(!closerInformation) 
     } 
+
+    useEffect(() => {
+        if(!selectedVideo){
+            return
+        }
+        db.collection("documents").doc(selectedVideo.documentId).onSnapshot((res)=>{
+            setPdf(res.data())
+        })
+            
+    }, [selectedVideo])
+
+
    
     return ( 
         <>
@@ -317,12 +329,14 @@ function VideoGallery () {
                             </div>
                         </div>
                         <div className={styles.documents}>
-                            <h3>Documentos</h3>
-                            <div>
-                                <div style={{backgroundColor: "#a9a9a9", minHeight: "40px", marginTop: "10px", borderRadius:"7px"}}></div>
-                                <div style={{backgroundColor: "#a9a9a9", minHeight: "40px", marginTop: "10px", borderRadius:"7px"}}></div>
-                                <div style={{backgroundColor: "#a9a9a9", minHeight: "40px", marginTop: "10px", borderRadius:"7px"}}></div>
-                            </div>
+                            <h3>Recursos:</h3>
+                            {pdf && 
+                                <a href={pdf.documentUrl} target= "_blank">
+                                <BsFileEarmarkPdfFill style={{color: "red", fontSize: "5rem"}}/>
+                                <span style={{fontSize: "1rem", color: "#3dae2a"}}>{pdf.name}</span>
+                            </a>
+                            }
+                            <h3>Tests:</h3>
                         </div>
                     </div>
                 </div>
@@ -336,5 +350,3 @@ function VideoGallery () {
         </>
     )
 }
-
-export default VideoGallery
