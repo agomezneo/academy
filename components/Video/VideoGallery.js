@@ -7,6 +7,7 @@ import Image from 'next/image';
 import {BsChevronDoubleUp, BsChevronDoubleDown, BsFileEarmarkPdfFill } from "react-icons/bs";
 import { SiTelegram } from "react-icons/si";
 import {useAuth} from 'context/auth/auth';
+import SpinerInfinity from 'components/Spiners/Spiner';
 
 export default function VideoGallery () {
 
@@ -191,7 +192,7 @@ export default function VideoGallery () {
    
     return ( 
         <>
-        {!selectedVideo || !videos ? <h1 style={{marginTop: "100px", fontSize:"3rem", color:"red" }}>!Por favor cargar primer video!</h1> : loadedVideos && videos ? 
+        {!selectedVideo || !videos ? <SpinerInfinity/>  : loadedVideos && videos ? 
             <div className={styles.VideoGallery} id="main-video">
                 <div className={styles.videoGallery_header}>
                     <h2>{user.membership === "PLUS" ? "BIBLIOTECA" : `ACADEMIA ${user.membership}`} </h2>
@@ -332,9 +333,9 @@ export default function VideoGallery () {
                             <h3 style={{marginBottom: "1rem"}}>Recursos:</h3>
                             {pdf && 
                                 <a href={pdf.documentUrl} target= "_blank" style={{display: "flex", alignItems: "flex-end"}}>
-                                <BsFileEarmarkPdfFill style={{color: "red", fontSize: "5rem"}}/>
-                                <span style={{fontSize: "1rem", color: "#3dae2a"}}>{pdf.name}</span>
-                            </a>
+                                    <BsFileEarmarkPdfFill style={{color: "red", fontSize: "5rem"}}/>
+                                    <span style={{fontSize: "1rem", color: "#3dae2a"}}>{pdf.name}</span>
+                                </a>
                             }
                             <h3 style={{marginBottom: "1rem"}}>Tests:</h3>
                         </div>

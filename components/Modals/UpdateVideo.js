@@ -46,7 +46,21 @@ const Modal = ({handleClose}) =>{
         });
     };
 
-    const createDocument = async (url) =>{
+    const createVideo = async () =>{
+        const storageVideoRef = app.storage().ref(values.category)
+        const videoRef = storageVideoRef.child(videoToUpdate.name)
+        const bytes = (await (videoRef.put(videoToUpdate))).bytesTransferred
+        console.log("bytesVideo", bytes)
+        setVideoUrl( await videoRef.getDownloadURL())
+    }
+
+    const createDocument = async () =>{
+        const storageDocumentRef = app.storage().ref("documents")
+        const documentRef = storageDocumentRef.child(documentToUpdate.name)
+        await (documentRef.put(documentToUpdate)).then((res)=>{
+            console.log("respuesta::", res.metadata)
+        })
+        const url = await documentRef.getDownloadURL();
         db.collection('documents').add({
             name: documentToUpdate.name,
             documentUrl: url,
@@ -57,6 +71,7 @@ const Modal = ({handleClose}) =>{
 
     const createTest = async (videoId) =>{
         db.collection('tests').add({
+            videoName: values.title,
             videoId: videoId,
             url: values.test,
         })
@@ -65,21 +80,8 @@ const Modal = ({handleClose}) =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setShowSpiner(true)
-        const storageVideoRef = app.storage().ref(values.category)
-        const videoRef = storageVideoRef.child(videoToUpdate.name)
-        const bytes = (await (videoRef.put(videoToUpdate))).bytesTransferred
-        console.log("bytesVideo", bytes)
-        setVideoUrl( await videoRef.getDownloadURL())
-
-        const storageDocumentRef = app.storage().ref("documents")
-        const documentRef = storageDocumentRef.child(documentToUpdate.name)
-        await (documentRef.put(documentToUpdate)).then((res)=>{
-            console.log("respuesta::", res.metadata)
-        })
-
-        const url = await documentRef.getDownloadURL();
-        await createDocument(url);
-
+        await createVideo();
+        await createDocument()
     } 
 
     useEffect(async () => {
@@ -150,19 +152,18 @@ const Modal = ({handleClose}) =>{
 
                                 {videoToUpdate &&
                                     <div style={{display: "block"}}>   
-                                    <p> <strong>Video:</strong> {videoToUpdate.name}</p>
-                                    <p  
-                                        onClick={()=> setVideoToUpdate(null)}
-                                        style={{
-                                            color: "red", 
-                                            cursor: "pointer",
-                                            width: "200px", 
-                                            }}
-                                    >
-                                        Quitar video y subir otro
-                                    </p>
+                                        <p> <strong>Video:</strong> {videoToUpdate.name}</p>
+                                        <p  
+                                            onClick={()=> setVideoToUpdate(null)}
+                                            style={{
+                                                color: "red", 
+                                                cursor: "pointer",
+                                                width: "200px", 
+                                                }}
+                                        >
+                                            Quitar video y subir otro
+                                        </p>
                                     </div>
-                                    
                                 }
                                 <div className={`${styles.inputBox} ${styles.inputSelect}`}>
                                     <span style={{position: "relative"}}>¿PDF de video?</span>

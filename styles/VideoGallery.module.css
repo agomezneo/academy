@@ -217,6 +217,7 @@
 
 .AdminONE{
     background-color: #080a08;
+    min-height: 100vh;
 }
 
 .commentsContainer_{

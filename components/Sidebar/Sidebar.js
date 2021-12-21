@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import UserDropdown from "components/Dropdowns/UserDropdown.js"; 
 import {auth} from '../../firebaseClient';
 import { useAuth } from "../../context/auth/auth";
+import { GiTestTubes, GiBookmark } from "react-icons/gi";
+import { GoSignOut } from "react-icons/go";
 
 export default function Sidebar({signOut, user}) {
 
@@ -127,7 +129,55 @@ export default function Sidebar({signOut, user}) {
                 null
                       
               }
-
+              
+              <li className="items-center">
+                <Link href="/admin/documents">
+                  <a
+                    href="#pablo"
+                    className={
+                      "text-xs uppercase py-3 font-bold block " +
+                      (router.pathname.indexOf("/admin/documents") !== -1
+                        ? " hover:text-lightBlue-600"
+                        : " hover:text-blueGray-500")
+                    }
+                    style={{display: "flex"}}
+                  >
+                    <GiBookmark 
+                      className={
+                        "mr-2 text-sm " +
+                        (router.pathname.indexOf("/admin/documents") !== -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    />{" "}
+                    Documentos
+                  </a>
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link href="/admin/tests">
+                  <a
+                    href="#pablo"
+                    className={
+                      "text-xs uppercase py-3 font-bold block " +
+                      (router.pathname.indexOf("/admin/tests") !== -1
+                        ? " hover:text-lightBlue-600"
+                        : " hover:text-blueGray-500")
+                    }
+                    style={{display: "flex"}}
+                  >
+                    <GiTestTubes 
+                      className={
+                        "mr-2 text-sm " +
+                        (router.pathname.indexOf("/admin/tests") !== -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    />{" "}
+                    Tests
+                  </a>
+                </Link>
+              </li>
               <li className="items-center">
                 <Link href="/admin/settings">
                   <a
@@ -151,12 +201,13 @@ export default function Sidebar({signOut, user}) {
                   </a>
                 </Link>
               </li>
-              <li className="items-center" style={{cursor: "pointer"}}>
+              <li className="items-center" style={{cursor: "pointer", display: "flex"}}>
                   <div
                     onClick={closeSesion}
-                    className="hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
+                    className="hover:text-blueGray-500 text-xs uppercase py-3 font-bold"
+                    style={{display: "flex"}}
                   >
-                    <i className="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i>{" "}
+                    <GoSignOut className="text-blueGray-400 mr-2 text-sm" />{" "}
                     Cerrar Sesión
                   </div>
               </li>
