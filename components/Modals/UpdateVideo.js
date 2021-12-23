@@ -70,7 +70,7 @@ const Modal = ({handleClose}) =>{
     }
 
     const createTest = async (videoId) =>{
-        db.collection('tests').add({
+        db.collection('tests').doc(videoId).set({
             videoName: values.title,
             videoId: videoId,
             url: values.test,
@@ -81,11 +81,14 @@ const Modal = ({handleClose}) =>{
         e.preventDefault();
         setShowSpiner(true)
         await createVideo();
-        await createDocument()
+        if(!documentToUpdate){
+            return
+        }
+        await createDocument();
     } 
 
     useEffect(async () => {
-        if(!videoUrl && !documentId){
+        if(!videoUrl){
             return
         }
        try {
@@ -109,8 +112,8 @@ const Modal = ({handleClose}) =>{
        }
         setShowSpiner(false)
         handleClose();
-        console.log("documentID:::",documentId);
-    }, [documentId])
+        console.log("success");
+    }, [videoUrl])
 
     return(
         <Backdrop onClick={handleClose}>
@@ -128,7 +131,7 @@ const Modal = ({handleClose}) =>{
                     :
 
                     <div className={styles.contactForm}>
-                        <h2 className={styles.formTitle}>Subir Video<br/></h2>
+                        <h2 className={styles.formTitle}>Create Mater Class<br/></h2>
                         <form onSubmit={handleSubmit}>
                             <div style={{padding: "1rem"}}>
                                 <div className={styles.inputBox}>
@@ -140,7 +143,7 @@ const Modal = ({handleClose}) =>{
                                     <span>Descripción</span>
                                 </div>
                                 <div className={styles.inputBox}>
-                                    <input type='text' name="test" required="required" onChange={handleChange} value={values.test}/>
+                                    <input type='text' name="test"  onChange={handleChange} value={values.test}/>
                                     <span>Url Test: Google Forms</span>
                                 </div>
                                 

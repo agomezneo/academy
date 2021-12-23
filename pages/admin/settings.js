@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import CardSettings from "components/Cards/CardSettings.js";
 import CardProfile from "components/Cards/CardProfile.js"; 
 import Admin from "layouts/Admin.js";
-import {useAuth} from 'context/auth/auth';
+import {useAuth} from 'context/auth/auth'; 
 import {db} from '../../firebaseClient';
 import { useRouter } from "next/router";
 

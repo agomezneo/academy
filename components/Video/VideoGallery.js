@@ -4,12 +4,14 @@ import {db} from '../../firebaseClient';
 import VideoCommentInput from 'components/Inputs/VideoCommentInput';
 import Comment from '../Inputs/Comment';
 import Image from 'next/image';
-import {BsChevronDoubleUp, BsChevronDoubleDown, BsFileEarmarkPdfFill } from "react-icons/bs";
+import Link from 'next/link';
+import {BsChevronDoubleUp, BsChevronDoubleDown, BsFileEarmarkPdfFill, BsJournalCheck } from "react-icons/bs";
 import { SiTelegram } from "react-icons/si";
 import {useAuth} from 'context/auth/auth';
 import SpinerInfinity from 'components/Spiners/Spiner';
+import { GiTestTubes } from 'react-icons/gi';
 
-export default function VideoGallery () {
+ function VideoGallery ({tests}) {
 
     /* useEffect(() => {
         const doc = document;
@@ -29,16 +31,16 @@ export default function VideoGallery () {
         }
     }, [currentUser])
 
+    const [test, setTest] = useState(null)
     const [videos , setVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState();
-    const [loadedVideos, setLoadedVideos] = useState(false)
     const [comments, setComments] = useState()
     const [biblioteca, setBiblioteca] = useState(false)
     const [closerInformation, setCloserInformation] = useState(true)
     const [profileTutor, setProfileTutor] = useState()
     const [tutorFound, setTutorFound] = useState(false)
     const [pdf, setPdf] = useState(null)
-
+   
      const getRef = () =>{
         if(!user){
          return
@@ -52,7 +54,7 @@ export default function VideoGallery () {
         return "videosAcademiaEnero"
     }
 
-    useEffect(() => {
+    useEffect( async () => {
         if(!user){
             return  
         }
@@ -61,10 +63,9 @@ export default function VideoGallery () {
             const docs = []; 
             res.forEach((doc)=>{
                 docs.push({...doc.data(), id:doc.id})
-            })
+        })
             setVideos(docs)
             setSelectedVideo(docs[0])
-            setLoadedVideos(true)
         })
     }, [user])
 
@@ -93,7 +94,7 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
+            
         })
     }
     const getVideosBiblioteca= () =>{
@@ -104,7 +105,7 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
+            
         })
         setBiblioteca(!biblioteca)
     }
@@ -116,7 +117,7 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
+           
         })
         setBiblioteca(!biblioteca)
     }
@@ -128,7 +129,6 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
         })
     }
     const getVideosWithTagTrading = () =>{
@@ -139,7 +139,6 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
         })
     }
     const getVideosWithTagCrypto = () =>{
@@ -150,7 +149,6 @@ export default function VideoGallery () {
             })
             setVideos(videosDefi);
             setSelectedVideo(videosDefi[0])
-            setLoadedVideos(true);
         })
     }
 
@@ -178,6 +176,7 @@ export default function VideoGallery () {
         setCloserInformation(!closerInformation) 
     } 
 
+    
     useEffect(() => {
         if(!selectedVideo){
             return
@@ -188,11 +187,22 @@ export default function VideoGallery () {
             
     }, [selectedVideo])
 
+    useEffect(() => {
+        if(!selectedVideo){
+            return
+        }
+        db.collection("tests").doc(selectedVideo.id).onSnapshot((res)=>{
+            console.log(res.data())
+            setTest(res.data())
+        })
+            
+    }, [selectedVideo])
 
-   
+    console.log(test)
+
     return ( 
         <>
-        {!selectedVideo || !videos ? <SpinerInfinity/>  : loadedVideos && videos ? 
+        {!selectedVideo || !videos ? <SpinerInfinity/>  : videos ? 
             <div className={styles.VideoGallery} id="main-video">
                 <div className={styles.videoGallery_header}>
                     <h2>{user.membership === "PLUS" ? "BIBLIOTECA" : `ACADEMIA ${user.membership}`} </h2>
@@ -337,7 +347,16 @@ export default function VideoGallery () {
                                     <span style={{fontSize: "1rem", color: "#3dae2a"}}>{pdf.name}</span>
                                 </a>
                             }
-                            <h3 style={{marginBottom: "1rem"}}>Tests:</h3>
+                            <h3 style={{marginBottom: "1rem"}}>Test del video:</h3>
+                                {test && 
+                                    <Link href={`/admin/tests/${test.videoId}`}  style={{display: "flex", alignItems: "flex-end"}}>
+                                        <a style={{display: "flex", alignItems: "flex-end"}}>
+                                            <BsJournalCheck style={{color: "#3dae2a", fontSize: "5rem"}}/>
+                                            <span style={{fontSize: "1rem", color: "#3dae2a"}}>{test.videoName}</span>
+                                        </a>
+                                    </Link>
+                                }
+                            
                         </div>
                     </div>
                 </div>
@@ -351,3 +370,5 @@ export default function VideoGallery () {
         </>
     )
 }
+
+export default VideoGallery;

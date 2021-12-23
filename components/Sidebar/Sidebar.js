@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import UserDropdown from "components/Dropdowns/UserDropdown.js"; 
 import {auth} from '../../firebaseClient';
 import { useAuth } from "../../context/auth/auth";
-import { GiTestTubes, GiBookmark } from "react-icons/gi";
+import { GiTestTubes, GiBookmark, GiVideoCamera } from "react-icons/gi";
 import { GoSignOut } from "react-icons/go";
 
 export default function Sidebar({signOut, user}) {
@@ -80,20 +80,25 @@ export default function Sidebar({signOut, user}) {
                   <a
                     href="#pablo"
                     className={
-                      "text-xs uppercase py-3 font-bold block " +
+                      "text-xs uppercase py-3 font-bold" +
                       (router.pathname.indexOf("/admin/dashboard") !== -1
                         ? " hover:text-lightBlue-600"
                         : " hover:text-blueGray-500")
                     }
+                    style={{
+                      display: "flex",
+                      alignItems: "center", 
+                    }}
                   >
-                    <i
+                    <GiVideoCamera
                       className={
-                        "fas fa-tv mr-2 text-sm " +
+                        "mr-2" +
                         (router.pathname.indexOf("/admin/dashboard") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
                       }
-                    ></i>{" "}
+                      style={{fontSize: "2rem"}}
+                    />{" "}
                     Dashboard
                   </a>
                 </Link>

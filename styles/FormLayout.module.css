@@ -34,13 +34,21 @@
     margin-right: 1rem;
     cursor: pointer;
     font-size: 1.7rem;
+
 }
 
 .form{
+    
     position: inherit;
     width: 100%;
     margin-bottom: 10vh;
     top: 10vh;
+    border-radius: 15px;
+    background: black !important;
+}
+
+.form > html >  body > div{
+    background: #131515 !important;
 }
 
 .footer{
@@ -55,6 +63,17 @@
     margin-top: 5rem;
 }
 
+.footerContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .contactButtons{
     display: flex;
+    justify-content: space-between;
+    width: 100px;
+    font-size: 2rem;
+    color: #3dae2a;
 }

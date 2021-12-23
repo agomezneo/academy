@@ -3,14 +3,24 @@ import styles from '../../../styles/Documents.module.css';
 import {BsFileEarmarkPdfFill } from "react-icons/bs";
 import Admin from "layouts/Admin.js";
 import {useRouter} from 'next/router';
+import {useAuth} from 'context/auth/auth';
 
 export default function Test({documents}) {
 
     const router = useRouter();
+    const {currentUser} = useAuth();
+    useEffect( async () => {
+      if(!currentUser){
+        router.push("/auth/login")
+      }
+    }, [currentUser])
 
     return (
         
-        <div className={styles.DocsContainer}>
+        <>
+        {currentUser &&
+
+            <div className={styles.DocsContainer}>
             {documents.map((doc, key)=>{
                 return(
                     <ul key={key}>
@@ -24,7 +34,10 @@ export default function Test({documents}) {
                 )
             })
             }
-        </div>
+            </div>
+            
+        }
+        </>
     
     )
 }

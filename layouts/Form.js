@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import UserDropdown from "components/Dropdowns/UserDropdown.js"; 
 import styles from '../styles/FormLayout.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaWhatsapp, FaTelegram, FaPhoneAlt } from "react-icons/fa";
+import { FaWhatsapp, FaTelegram } from "react-icons/fa";
 
 
-function Form({children}) {
+function Form({children, user}) {
 
     const [screen, setScreen] = useState(false)
     useEffect(() => {
@@ -24,21 +25,22 @@ function Form({children}) {
                 </div>
                 <Link href='/admin/dashboard'> 
                 <div className={styles.formTitle}>
-                    <h1>ACADEMIA</h1>
+                    <UserDropdown user={user}/>   
                 </div>
                 </Link>
             </div>
             {children}
             <div className={styles.footer}>
-                <div>
-                    <div className={styles.imageContainer}>
-                        <Image src='/img/brand/logo.png' width={screen ? "180" : '230'} height={screen ? "30" : '40'} />
+                <div className={styles.footerContainer}>
+                    <div>
+                        <div className={styles.imageContainer}>
+                            <Image src='/img/brand/logo.png' width={screen ? "180" : '230'} height={screen ? "30" : '40'} />
+                        </div>
                     </div>
-                </div>
-                <div className={styles.contactButtons}>
-                    <FaTelegram/>
-                    <FaWhatsapp/>
-                    <FaPhoneAlt/>
+                    <div className={styles.contactButtons} >
+                        <FaTelegram/>
+                        <FaWhatsapp/>
+                    </div>
                 </div>
             </div>
         </div>
